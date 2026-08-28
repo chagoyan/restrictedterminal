@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { Message } from "@/lib/game/engine";
+import { playIncoming } from "@/lib/game/sound";
 
 const GLITCH_CHARS = "!@#$%&*<>/\\|=+~";
 
