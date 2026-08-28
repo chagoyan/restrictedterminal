@@ -51,26 +51,41 @@ export function useGame(studentName: string) {
     setLines((prev) => [...prev, ...texts.map((t) => ({ id: nextId(), text: t, kind }))]);
   }, []);
 
-  const pushMessages = useCallback(
-    (items: Transmission[], baseDelay = 700) => {
-      items.forEach((t, i) => {
-        setTimeout(
-          () =>
-            setMessages((prev) => [
-              ...prev,
-              {
-                ...t,
-                id: nextId(),
-                time: clock(),
-                text: t.text.replaceAll("{name}", studentName),
-              },
-            ]),
-          baseDelay + i * 1600,
-        );
-      });
+  // Transmissions arrive one at a time, in order, however fast beats complete.
+  const queue = useRef<Transmission[]>([]);
+  const draining = useRef(false);
+
+  const drain = useCallback(
+    (delay: number) => {
+      if (draining.current) return;
+      const next = queue.current.shift();
+      if (!next) return;
+      draining.current = true;
+      setTimeout(() => {
+        setMessages((prev) => [
+          ...prev,
+          {
+            ...next,
+            id: nextId(),
+            time: clock(),
+            text: next.text.replaceAll("{name}", studentName),
+          },
+        ]);
+        draining.current = false;
+        drain(Math.min(2200, 900 + next.text.length * 12));
+      }, delay);
     },
     [studentName],
   );
+
+  const pushMessages = useCallback(
+    (items: Transmission[], baseDelay = 700) => {
+      queue.current.push(...items);
+      drain(baseDelay);
+    },
+    [drain],
+  );
+
 
   const beat = beats[beatIndex];
 
