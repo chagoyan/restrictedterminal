@@ -3,14 +3,13 @@ import { useGame } from "@/lib/game/engine";
 import { TerminalPanel } from "./TerminalPanel";
 import { CommsPanel } from "./CommsPanel";
 import { StatusBar } from "./StatusBar";
-import { CompletionScreen } from "./CompletionScreen";
 
 export function Workstation({
   studentName,
-  onRestart,
+  onFinish,
 }: {
   studentName: string;
-  onRestart: () => void;
+  onFinish: () => void;
 }) {
   const game = useGame(studentName);
   const [commsOnline, setCommsOnline] = useState(false);
@@ -18,9 +17,9 @@ export function Workstation({
     if (game.messages.length > 0 && !commsOnline) setCommsOnline(true);
   }, [game.messages.length, commsOnline]);
 
-  if (game.finished) {
-    return <CompletionScreen studentName={studentName} stats={game.stats} onRestart={onRestart} />;
-  }
+  useEffect(() => {
+    if (game.finished) onFinish();
+  }, [game.finished, onFinish]);
 
   const signal = Math.max(1, 4 - Math.floor(game.beatIndex / 3));
 
