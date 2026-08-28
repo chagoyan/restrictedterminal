@@ -3,14 +3,21 @@ import { useEffect, useState } from "react";
 export function LoginScreen({
   onLogin,
   farewell,
+  studentName,
 }: {
   onLogin: (name: string) => void;
   farewell?: boolean;
+  studentName?: string;
 }) {
-  const [name, setName] = useState("");
+  const [name, setName] = useState(farewell ? (studentName ?? "") : "");
   const [phase, setPhase] = useState<"hidden" | "in" | "out" | "gone">(
     farewell ? "hidden" : "gone",
   );
+  const stamp = new Date().toLocaleDateString(undefined, {
+    year: "numeric",
+    month: "short",
+    day: "2-digit",
+  });
 
   useEffect(() => {
     if (!farewell) return;
@@ -25,7 +32,11 @@ export function LoginScreen({
   }, [farewell]);
 
   return (
-    <main className="relative flex min-h-screen items-center justify-center px-4 crt-flicker">
+    <main
+      className={`relative flex min-h-screen items-center justify-center px-4 crt-flicker ${
+        farewell ? "amber-session" : ""
+      }`}
+    >
       <div className="pointer-events-none absolute inset-0 scanlines-overlay" aria-hidden="true" />
       <div className="w-full max-w-md">
         {phase !== "gone" && phase !== "hidden" && (
@@ -42,10 +53,15 @@ export function LoginScreen({
         )}
 
         <div className="panel-frame rounded-md p-8">
-          <p className="text-xs tracking-[0.3em] text-muted-foreground">COALINGA UNIFIED</p>
+          <div className="flex items-baseline justify-between gap-3">
+            <p className="text-xs tracking-[0.3em] text-muted-foreground">
+              COALINGA HURON UNIFIED SCHOOL DISTRICT
+            </p>
+          </div>
           <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
-            Restricted network workstation. Identify yourself before the session is opened. All
-            keystrokes are recorded for security review.
+            {farewell
+              ? "Session closed. The record below is retained for security review. No further action is required."
+              : "Restricted network workstation. Identify yourself before the session is opened. All keystrokes are recorded for security review."}
           </p>
 
           <form
@@ -91,6 +107,10 @@ export function LoginScreen({
               SIGN IN WITH SCHOOL ACCOUNT — UNAVAILABLE
             </button>
           </form>
+
+          <p className="mt-6 text-right text-[10px] tracking-widest text-muted-foreground/60">
+            {farewell ? `SESSION CLOSED ${stamp}` : stamp}
+          </p>
         </div>
       </div>
     </main>

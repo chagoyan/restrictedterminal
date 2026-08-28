@@ -81,7 +81,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       {
         name: "description",
         content:
-          "An interactive terminal adventure for Coalinga High School web application development students.",
+          "An interactive terminal adventure for Coalinga Huron Unified School District web application development students.",
       },
       { property: "og:title", content: "Terminal Mission: 2047" },
       {

@@ -29,11 +29,13 @@ function Index() {
   const [studentName, setStudentName] = useState<string | null>(null);
   const [sessionKey, setSessionKey] = useState(0);
   const [farewell, setFarewell] = useState(false);
+  const [lastName, setLastName] = useState("");
 
   if (!studentName)
     return (
       <LoginScreen
         farewell={farewell}
+        studentName={lastName}
         onLogin={(n) => {
           setFarewell(false);
           setSessionKey((k) => k + 1);
@@ -47,6 +49,7 @@ function Index() {
       key={sessionKey}
       studentName={studentName}
       onFinish={() => {
+        setLastName(studentName);
         setFarewell(true);
         setStudentName(null);
       }}
