@@ -39,7 +39,7 @@ const err = (line: string): CmdResult => ({ lines: [line], ok: false });
 /** Nodes under /net that have not been linked yet are unreachable. */
 function linkDown(ctx: CmdContext, segments: string[]): boolean {
   if (segments[0] !== "net" || segments.length < 2) return false;
-  return !ctx.unlocked.has(segments[1]);
+  return !ctx.unlocked.has(segments[1]!);
 }
 
 const LINK_MSG = "link down: remote volume is not responding";
@@ -161,9 +161,9 @@ export const commands: Record<string, Command> = {
         if (!parent) return err(`mkdir: ${target}: No such file or directory`);
         addChild(parent, {
           type: "dir",
-          name: segs[segs.length - 1],
+          name: segs[segs.length - 1]!,
           children: [],
-          hidden: segs[segs.length - 1].startsWith("."),
+          hidden: segs[segs.length - 1]!.startsWith("."),
         });
       }
       return ok();
@@ -180,7 +180,7 @@ export const commands: Record<string, Command> = {
         if (getNode(ctx.root, segs)) continue;
         const parent = getParent(ctx.root, segs);
         if (!parent) return err(`touch: ${target}: No such file or directory`);
-        addChild(parent, { type: "file", name: segs[segs.length - 1], content: "" });
+        addChild(parent, { type: "file", name: segs[segs.length - 1]!, content: "" });
       }
       return ok();
     },
@@ -192,7 +192,7 @@ export const commands: Record<string, Command> = {
     run: (ctx, args) => {
       const { flags, rest } = parseFlags(args);
       if (rest.length < 2) return err("cp: missing destination file operand");
-      const dest = rest[rest.length - 1];
+      const dest = rest[rest.length - 1]!;
       const sources = rest.slice(0, -1);
       const destSegs = resolvePath(ctx.cwd, dest, ctx.home);
       const destNode = getNode(ctx.root, destSegs);
@@ -210,7 +210,7 @@ export const commands: Record<string, Command> = {
         } else {
           const parent = getParent(ctx.root, destSegs);
           if (!parent) return err(`cp: ${dest}: No such file or directory`);
-          addChild(parent, { ...clone(srcNode), name: destSegs[destSegs.length - 1] });
+          addChild(parent, { ...clone(srcNode), name: destSegs[destSegs.length - 1]! });
         }
       }
       return ok();
@@ -222,7 +222,7 @@ export const commands: Record<string, Command> = {
     summary: "move or rename files",
     run: (ctx, args) => {
       if (args.length < 2) return err("mv: missing destination file operand");
-      const dest = args[args.length - 1];
+      const dest = args[args.length - 1]!;
       const sources = args.slice(0, -1);
       const destSegs = resolvePath(ctx.cwd, dest, ctx.home);
       const destNode = getNode(ctx.root, destSegs);
@@ -241,7 +241,7 @@ export const commands: Record<string, Command> = {
         } else {
           const parent = getParent(ctx.root, destSegs);
           if (!parent) return err(`mv: ${dest}: No such file or directory`);
-          copy.name = destSegs[destSegs.length - 1];
+          copy.name = destSegs[destSegs.length - 1]!;
           addChild(parent, copy);
         }
       }
@@ -305,7 +305,7 @@ export const commands: Record<string, Command> = {
 export function runCommand(ctx: CmdContext, input: string): CmdResult & { name: string } {
   const parts = input.trim().split(/\s+/).filter(Boolean);
   if (parts.length === 0) return { name: "", lines: [], ok: true };
-  const [name, ...args] = parts;
+  const [name, ...args] = parts as [string, ...string[]];
   const cmd = commands[name];
   if (!cmd) return { name, lines: [`${name}: command not found`], ok: false };
   return { name, ...cmd.run(ctx, args) };

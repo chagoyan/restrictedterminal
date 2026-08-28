@@ -75,7 +75,7 @@ export function getNode(root: VDir, segments: string[]): VNode | null {
   let cur: VNode = root;
   for (const seg of segments) {
     if (!isDir(cur)) return null;
-    const next = cur.children.find((c) => c.name === seg);
+    const next: VNode | undefined = cur.children.find((c) => c.name === seg);
     if (!next) return null;
     cur = next;
   }

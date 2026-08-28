@@ -139,7 +139,7 @@ export function useGame(studentName: string) {
     }
     if (failureScore.current >= 3 && hintLevel.current < current.hints.length) {
       failureScore.current = 0;
-      pushMessages([{ from: "CHAGOYAN", text: current.hints[hintLevel.current], hint: true }], 900);
+      pushMessages([{ from: "CHAGOYAN", text: current.hints[hintLevel.current]!, hint: true }], 900);
       hintLevel.current += 1;
       setHintsUsed((h) => h + 1);
     }
