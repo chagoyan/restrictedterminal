@@ -26,9 +26,16 @@ export function TerminalPanel({
   const [histIdx, setHistIdx] = useState(-1);
   const endRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const lastErrorId = useRef(0);
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ block: "end" });
+    const errs = lines.filter((l) => l.kind === "error");
+    const last = errs[errs.length - 1];
+    if (last && last.id > lastErrorId.current) {
+      lastErrorId.current = last.id;
+      playError();
+    }
   }, [lines]);
 
   const prompt = `student@chs:${pathString(cwd) || "/"}$`;
