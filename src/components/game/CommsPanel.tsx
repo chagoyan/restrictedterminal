@@ -32,6 +32,21 @@ function useDecoded(text: string, active: boolean) {
 
 function Bubble({ msg, isLatest }: { msg: Message; isLatest: boolean }) {
   const decoded = useDecoded(msg.text, isLatest);
+  const ref = useRef<HTMLElement>(null);
+
+  // Keep the newest message fully in view while it decodes, without slamming
+  // the scroll position to the very bottom of the panel.
+  useEffect(() => {
+    if (!isLatest) return;
+    const el = ref.current;
+    const scroller = el?.closest("[data-comms-scroll]");
+    if (!el || !scroller) return;
+    const target = el.offsetTop + el.offsetHeight + 12;
+    if (scroller.scrollTop + scroller.clientHeight < target) {
+      scroller.scrollTop = target - scroller.clientHeight;
+    }
+  }, [decoded, isLatest]);
+
   const label =
     msg.from === "CHAGOYAN"
       ? "CHAGOYAN // 2047"
