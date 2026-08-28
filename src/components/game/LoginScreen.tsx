@@ -107,6 +107,10 @@ export function LoginScreen({
               SIGN IN WITH SCHOOL ACCOUNT — UNAVAILABLE
             </button>
           </form>
+
+          <p className="mt-6 text-right text-[10px] tracking-widest text-muted-foreground/60">
+            {farewell ? `SESSION CLOSED ${stamp}` : stamp}
+          </p>
         </div>
       </div>
     </main>
