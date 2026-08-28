@@ -10,7 +10,7 @@ export function LoginScreen({ onLogin }: { onLogin: (name: string) => void }) {
         <p className="text-xs tracking-[0.3em] text-muted-foreground">COALINGA UNIFIED</p>
         <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
           Restricted network workstation. Identify yourself before the session is opened. All
-          keystrokes are recorded for instructional review.
+          keystrokes are recorded for security review.
         </p>
 
         <form
