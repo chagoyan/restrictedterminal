@@ -290,9 +290,9 @@ export const beats: Beat[] = [
     ],
     check: (s) => exists(s.root, `${vault}/uplink.armed`),
     hints: [
-      "An empty file is enough. The relay only checks that it's there.",
-      "You know a command whose entire job is bringing an empty file into existence.",
-      "touch ~/vault/uplink.armed",
+      "An empty file is enough. Create one in ~/vault with any name.",
+      "Then rename it — the same command that moves a file also renames it.",
+      "touch ~/vault/flag  then  mv ~/vault/flag ~/vault/uplink.armed",
     ],
   },
 ];
