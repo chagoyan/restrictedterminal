@@ -1,5 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { Message } from "@/lib/game/engine";
+import { playIncoming } from "@/lib/game/sound";
 
 const GLITCH_CHARS = "!@#$%&*<>/\\|=+~";
 
@@ -31,6 +32,22 @@ function useDecoded(text: string, active: boolean) {
 
 function Bubble({ msg, isLatest }: { msg: Message; isLatest: boolean }) {
   const decoded = useDecoded(msg.text, isLatest);
+  const ref = useRef<HTMLElement>(null);
+
+  // Keep the newest message fully in view while it decodes, without slamming
+  // the scroll position to the very bottom of the panel.
+  useEffect(() => {
+    if (!isLatest) return;
+    const el = ref.current;
+    const scroller = el?.closest("[data-comms-scroll]");
+    if (!el || !scroller) return;
+    const over =
+      el.getBoundingClientRect().bottom - scroller.getBoundingClientRect().bottom;
+    if (over > -12) {
+      scroller.scrollTop += over + 12;
+    }
+  }, [decoded, isLatest]);
+
   const label =
     msg.from === "CHAGOYAN"
       ? "CHAGOYAN // 2047"
@@ -48,7 +65,7 @@ function Bubble({ msg, isLatest }: { msg: Message; isLatest: boolean }) {
           : "border-primary/30 text-foreground";
 
   return (
-    <article className={`border-l-2 pl-3 ${tone} ${msg.glitch ? "glitch" : ""}`}>
+    <article ref={ref} className={`border-l-2 pl-3 ${tone} ${msg.glitch ? "glitch" : ""}`}>
       <header className="flex items-baseline justify-between text-[10px] tracking-widest text-muted-foreground">
         <span>
           {msg.hint ? "ASSIST // " : "TRANSMISSION // "}
@@ -63,7 +80,11 @@ function Bubble({ msg, isLatest }: { msg: Message; isLatest: boolean }) {
 
 export function CommsPanel({ messages, signal }: { messages: Message[]; signal: number }) {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const lastCount = useRef(0);
+
   useEffect(() => {
+    if (messages.length > lastCount.current) playIncoming();
+    lastCount.current = messages.length;
     const el = scrollRef.current;
     if (el) el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
   }, [messages]);
@@ -90,7 +111,11 @@ export function CommsPanel({ messages, signal }: { messages: Message[]; signal: 
         </p>
       </header>
 
-      <div ref={scrollRef} className="min-h-0 flex-1 space-y-4 overflow-y-auto px-3 py-4">
+      <div
+        ref={scrollRef}
+        data-comms-scroll
+        className="min-h-0 flex-1 space-y-4 overflow-y-auto px-3 py-4"
+      >
         {messages.length === 0 && (
           <p className="text-[11px] text-muted-foreground">Listening for carrier...</p>
         )}
