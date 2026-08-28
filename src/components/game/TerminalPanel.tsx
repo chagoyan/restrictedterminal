@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { Line } from "@/lib/game/engine";
 import { pathString } from "@/lib/game/fs";
+import { playEnter, playError, playKey } from "@/lib/game/sound";
 
 const kindClass: Record<Line["kind"], string> = {
   input: "text-foreground",
