@@ -3,14 +3,21 @@ import { useEffect, useState } from "react";
 export function LoginScreen({
   onLogin,
   farewell,
+  studentName,
 }: {
   onLogin: (name: string) => void;
   farewell?: boolean;
+  studentName?: string;
 }) {
-  const [name, setName] = useState("");
+  const [name, setName] = useState(farewell ? (studentName ?? "") : "");
   const [phase, setPhase] = useState<"hidden" | "in" | "out" | "gone">(
     farewell ? "hidden" : "gone",
   );
+  const stamp = new Date().toLocaleDateString(undefined, {
+    year: "numeric",
+    month: "short",
+    day: "2-digit",
+  });
 
   useEffect(() => {
     if (!farewell) return;
