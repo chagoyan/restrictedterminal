@@ -53,10 +53,15 @@ export function LoginScreen({
         )}
 
         <div className="panel-frame rounded-md p-8">
-          <p className="text-xs tracking-[0.3em] text-muted-foreground">COALINGA UNIFIED</p>
+          <div className="flex items-baseline justify-between gap-3">
+            <p className="text-xs tracking-[0.3em] text-muted-foreground">
+              COALINGA HURON UNIFIED SCHOOL DISTRICT
+            </p>
+          </div>
           <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
-            Restricted network workstation. Identify yourself before the session is opened. All
-            keystrokes are recorded for security review.
+            {farewell
+              ? "Session closed. The record below is retained for security review. No further action is required."
+              : "Restricted network workstation. Identify yourself before the session is opened. All keystrokes are recorded for security review."}
           </p>
 
           <form
