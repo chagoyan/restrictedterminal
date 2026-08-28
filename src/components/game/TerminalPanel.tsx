@@ -89,10 +89,10 @@ export function TerminalPanel({
                 setValue(i >= 0 ? history[i] : "");
               }
             }}
-            className="w-full bg-transparent text-foreground caret-transparent outline-none"
+            className="w-full bg-transparent text-foreground outline-none"
           />
-          <span className="-ml-2 inline-block h-[1.1em] w-[0.6ch] shrink-0 bg-primary caret-blink" />
         </form>
+
         <div ref={endRef} />
       </div>
     </section>
