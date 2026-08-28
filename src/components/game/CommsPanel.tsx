@@ -64,7 +64,7 @@ function Bubble({ msg, isLatest }: { msg: Message; isLatest: boolean }) {
           : "border-primary/30 text-foreground";
 
   return (
-    <article className={`border-l-2 pl-3 ${tone} ${msg.glitch ? "glitch" : ""}`}>
+    <article ref={ref} className={`border-l-2 pl-3 ${tone} ${msg.glitch ? "glitch" : ""}`}>
       <header className="flex items-baseline justify-between text-[10px] tracking-widest text-muted-foreground">
         <span>
           {msg.hint ? "ASSIST // " : "TRANSMISSION // "}
