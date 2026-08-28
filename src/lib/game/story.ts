@@ -281,7 +281,7 @@ export const beats: Beat[] = [
     onEnter: [
       {
         from: "CHAGOYAN",
-        text: "Relay config wants two things: four fragments, and an armed flag. The flag is just a file — the relay checks for its existence, nothing more. Name it uplink.armed and put it in the vault with the trace.",
+        text: "The relay needs two things: the four fragments, and a file named uplink.armed sitting with them in the vault. Make an empty file in the vault, then rename it to uplink.armed. The relay only checks that the name exists.",
       },
       {
         from: "CHAGOYAN",
