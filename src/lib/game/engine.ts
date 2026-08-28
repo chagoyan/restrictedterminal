@@ -27,7 +27,7 @@ export function useGame(studentName: string) {
   const rootRef = useRef<VDir>(buildWorld());
   const [cwd, setCwd] = useState<string[]>(["net", "ucla"]);
   const [lines, setLines] = useState<Line[]>([
-    { id: nextId(), text: "Coalinga Unified // Restricted Network Workstation", kind: "system" },
+    { id: nextId(), text: "Coalinga Huron Unified School District // Restricted Network Workstation", kind: "system" },
     { id: nextId(), text: "chs-shell 1.4  (reconstruction layer active)", kind: "system" },
     { id: nextId(), text: "type 'help' for available programs", kind: "system" },
     { id: nextId(), text: "", kind: "system" },
