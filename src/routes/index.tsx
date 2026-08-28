@@ -28,14 +28,28 @@ export const Route = createFileRoute("/")({
 function Index() {
   const [studentName, setStudentName] = useState<string | null>(null);
   const [sessionKey, setSessionKey] = useState(0);
+  const [farewell, setFarewell] = useState(false);
 
-  if (!studentName) return <LoginScreen onLogin={setStudentName} />;
+  if (!studentName)
+    return (
+      <LoginScreen
+        farewell={farewell}
+        onLogin={(n) => {
+          setFarewell(false);
+          setSessionKey((k) => k + 1);
+          setStudentName(n);
+        }}
+      />
+    );
 
   return (
     <Workstation
       key={sessionKey}
       studentName={studentName}
-      onRestart={() => setSessionKey((k) => k + 1)}
+      onFinish={() => {
+        setFarewell(true);
+        setStudentName(null);
+      }}
     />
   );
 }
