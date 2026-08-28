@@ -79,7 +79,11 @@ function Bubble({ msg, isLatest }: { msg: Message; isLatest: boolean }) {
 
 export function CommsPanel({ messages, signal }: { messages: Message[]; signal: number }) {
   const scrollRef = useRef<HTMLDivElement>(null);
+  const lastCount = useRef(0);
+
   useEffect(() => {
+    if (messages.length > lastCount.current) playIncoming();
+    lastCount.current = messages.length;
     const el = scrollRef.current;
     if (el) el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
   }, [messages]);
