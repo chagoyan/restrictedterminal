@@ -110,7 +110,11 @@ export function CommsPanel({ messages, signal }: { messages: Message[]; signal: 
         </p>
       </header>
 
-      <div ref={scrollRef} className="min-h-0 flex-1 space-y-4 overflow-y-auto px-3 py-4">
+      <div
+        ref={scrollRef}
+        data-comms-scroll
+        className="min-h-0 flex-1 space-y-4 overflow-y-auto px-3 py-4"
+      >
         {messages.length === 0 && (
           <p className="text-[11px] text-muted-foreground">Listening for carrier...</p>
         )}
