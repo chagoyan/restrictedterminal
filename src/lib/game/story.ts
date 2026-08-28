@@ -171,7 +171,7 @@ export const beats: Beat[] = [
       },
       {
         from: "CHAGOYAN",
-        text: "UCSB is worse: a resident process rewrites files in place every sixty seconds. Before you touch anything there, build somewhere safe in your own home directory to hold recovered data. Call it vault so I know where to look.",
+        text: "UCSB is worse: a resident process rewrites files in place every sixty seconds. Before you touch anything there, build a directory somewhere safe in your own home directory to hold recovered data. Name the new directory vault so I know where to look.",
       },
     ],
     check: (s) => exists(s.root, vault),
@@ -189,7 +189,7 @@ export const beats: Beat[] = [
     onEnter: [
       {
         from: "CHAGOYAN",
-        text: "Now consolidate. I need all three recovered fragments sitting in that vault — the UCLA one, the SRI one, and the one UCSB is holding on tape. Copy them; leave the originals in place so nothing notices a gap.",
+        text: "Now consolidate. I need all three recovered fragments sitting in that vault directory— the UCLA one, the SRI one, and the one UCSB is holding in the tape directory. Copy them; leave the originals in place so nothing notices a gap.",
       },
     ],
     check: (s) =>
