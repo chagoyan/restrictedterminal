@@ -80,13 +80,13 @@ export function TerminalPanel({
                 const i = Math.min(histIdx + 1, history.length - 1);
                 if (i >= 0) {
                   setHistIdx(i);
-                  setValue(history[i]);
+                  setValue(history[i] ?? "");
                 }
               } else if (e.key === "ArrowDown") {
                 e.preventDefault();
                 const i = histIdx - 1;
                 setHistIdx(i);
-                setValue(i >= 0 ? history[i] : "");
+                setValue(i >= 0 ? (history[i] ?? "") : "");
               }
             }}
             className="w-full bg-transparent text-foreground outline-none"

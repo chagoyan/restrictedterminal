@@ -13,8 +13,8 @@ export function StatusBar({
 }: {
   studentName: string;
   unlocked: Set<string>;
-  objective?: string;
-  nodeLabel?: string;
+  objective?: string | undefined;
+  nodeLabel?: string | undefined;
 }) {
   return (
     <header className="panel-frame flex flex-wrap items-center gap-x-6 gap-y-2 rounded-md px-4 py-2 text-[11px] tracking-wider">
