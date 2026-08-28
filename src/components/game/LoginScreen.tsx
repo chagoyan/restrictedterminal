@@ -32,7 +32,11 @@ export function LoginScreen({
   }, [farewell]);
 
   return (
-    <main className="relative flex min-h-screen items-center justify-center px-4 crt-flicker">
+    <main
+      className={`relative flex min-h-screen items-center justify-center px-4 crt-flicker ${
+        farewell ? "amber-session" : ""
+      }`}
+    >
       <div className="pointer-events-none absolute inset-0 scanlines-overlay" aria-hidden="true" />
       <div className="w-full max-w-md">
         {phase !== "gone" && phase !== "hidden" && (
