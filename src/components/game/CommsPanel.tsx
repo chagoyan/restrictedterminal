@@ -41,9 +41,10 @@ function Bubble({ msg, isLatest }: { msg: Message; isLatest: boolean }) {
     const el = ref.current;
     const scroller = el?.closest("[data-comms-scroll]");
     if (!el || !scroller) return;
-    const target = el.offsetTop + el.offsetHeight + 12;
-    if (scroller.scrollTop + scroller.clientHeight < target) {
-      scroller.scrollTop = target - scroller.clientHeight;
+    const over =
+      el.getBoundingClientRect().bottom - scroller.getBoundingClientRect().bottom;
+    if (over > -12) {
+      scroller.scrollTop += over + 12;
     }
   }, [decoded, isLatest]);
 
