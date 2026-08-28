@@ -27,7 +27,13 @@ function tone(freq: number, duration: number, gain: number, type: OscillatorType
 
 /** Mechanical-ish keystroke tick. */
 export function playKey() {
-  tone(1400 + Math.random() * 500, 0.03, 0.05, "square");
+  tone(1450, 0.03, 0.05, "square");
+}
+
+/** Soft incoming-transmission ping — distinct from keyboard sounds. */
+export function playIncoming() {
+  tone(880, 0.12, 0.06, "sine");
+  setTimeout(() => tone(1175, 0.18, 0.05, "sine"), 110);
 }
 
 /** Heavier thunk for Enter. */
