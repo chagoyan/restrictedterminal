@@ -14,12 +14,8 @@ export function Workstation({
 }) {
   const game = useGame(studentName);
   const [commsOnline, setCommsOnline] = useState(false);
-  const glitchRef = useRef(false);
   useEffect(() => {
-    if (game.messages.length > 0 && !commsOnline) {
-      glitchRef.current = true;
-      setCommsOnline(true);
-    }
+    if (game.messages.length > 0 && !commsOnline) setCommsOnline(true);
   }, [game.messages.length, commsOnline]);
 
   if (game.finished) {

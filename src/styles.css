@@ -154,6 +154,38 @@
   animation: glitch-shift 0.35s steps(2, end) infinite;
 }
 
+@keyframes glitch-in {
+  0% {
+    opacity: 0;
+    transform: translateX(6px);
+    filter: brightness(3) saturate(0);
+  }
+  18% {
+    opacity: 1;
+    transform: translateX(-3px) skewX(4deg);
+  }
+  34% {
+    opacity: 0.2;
+    transform: translateX(2px);
+  }
+  52% {
+    opacity: 1;
+    filter: brightness(1.6);
+  }
+  70% {
+    opacity: 0.4;
+    transform: skewX(-2deg);
+  }
+  100% {
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+}
+@utility glitch-in {
+  animation: glitch-in 0.9s steps(6, end) both;
+}
+
 @keyframes blink {
   0%,
   49% {
