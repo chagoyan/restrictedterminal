@@ -186,6 +186,35 @@
   animation: glitch-in 0.9s steps(6, end) both;
 }
 
+@keyframes glitch-out {
+  0% {
+    opacity: 1;
+    transform: none;
+  }
+  25% {
+    opacity: 0.3;
+    transform: translateX(-4px) skewX(6deg);
+    filter: brightness(2);
+  }
+  45% {
+    opacity: 1;
+    transform: translateX(3px);
+  }
+  70% {
+    opacity: 0.15;
+    transform: translateX(-6px) skewX(-8deg);
+  }
+  100% {
+    opacity: 0;
+    transform: translateX(10px);
+    filter: brightness(3) saturate(0);
+  }
+}
+@utility glitch-out {
+  animation: glitch-out 0.9s steps(6, end) both;
+}
+
+
 @keyframes blink {
   0%,
   49% {

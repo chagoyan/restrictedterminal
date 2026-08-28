@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import type { Line } from "@/lib/game/engine";
 import { pathString } from "@/lib/game/fs";
+import { playEnter, playError, playKey } from "@/lib/game/sound";
 
 const kindClass: Record<Line["kind"], string> = {
   input: "text-foreground",
@@ -25,9 +26,16 @@ export function TerminalPanel({
   const [histIdx, setHistIdx] = useState(-1);
   const endRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
+  const lastErrorId = useRef(0);
 
   useEffect(() => {
     endRef.current?.scrollIntoView({ block: "end" });
+    const errs = lines.filter((l) => l.kind === "error");
+    const last = errs[errs.length - 1];
+    if (last && last.id > lastErrorId.current) {
+      lastErrorId.current = last.id;
+      playError();
+    }
   }, [lines]);
 
   const prompt = `student@chs:${pathString(cwd) || "/"}$`;
@@ -75,6 +83,8 @@ export function TerminalPanel({
             value={value}
             onChange={(e) => setValue(e.target.value)}
             onKeyDown={(e) => {
+              if (e.key === "Enter") playEnter();
+              else if (e.key.length === 1 || e.key === "Backspace" || e.key === "Tab") playKey();
               if (e.key === "ArrowUp") {
                 e.preventDefault();
                 const i = Math.min(histIdx + 1, history.length - 1);

@@ -210,7 +210,7 @@ export const beats: Beat[] = [
     onEnter: [
       {
         from: "CHAGOYAN",
-        text: "Data's safe. Now kill the thing that's editing that volume — the daemon directory on UCSB, all of it. It has no owner listed, {name}. Nothing legitimate runs without an owner.",
+        text: "Data's safe. Now delete the thing that's editing that volume — the daemon directory on UCSB, all of it. It has no owner listed, {name}. Nothing legitimate runs without an owner.",
       },
     ],
     check: (s) => !exists(s.root, "/net/ucsb/daemon"),
@@ -281,7 +281,7 @@ export const beats: Beat[] = [
     onEnter: [
       {
         from: "CHAGOYAN",
-        text: "Relay config wants two things: four fragments, and an armed flag. The flag is just a file — the relay checks for its existence, nothing more. Name it uplink.armed and put it in the vault with the trace.",
+        text: "The relay needs two things: the four fragments, and a file named uplink.armed sitting with them in the vault. Make an empty file in the vault, then rename it to uplink.armed. The relay only checks that the name exists.",
       },
       {
         from: "CHAGOYAN",
@@ -290,9 +290,9 @@ export const beats: Beat[] = [
     ],
     check: (s) => exists(s.root, `${vault}/uplink.armed`),
     hints: [
-      "An empty file is enough. The relay only checks that it's there.",
-      "You know a command whose entire job is bringing an empty file into existence.",
-      "touch ~/vault/uplink.armed",
+      "An empty file is enough. Create one in ~/vault with any name.",
+      "Then rename it — the same command that moves a file also renames it.",
+      "touch ~/vault/flag  then  mv ~/vault/flag ~/vault/uplink.armed",
     ],
   },
 ];
