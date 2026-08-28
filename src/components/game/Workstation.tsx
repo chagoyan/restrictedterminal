@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useGame } from "@/lib/game/engine";
 import { TerminalPanel } from "./TerminalPanel";
 import { CommsPanel } from "./CommsPanel";

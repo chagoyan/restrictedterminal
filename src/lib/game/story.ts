@@ -43,7 +43,7 @@ export const beats: Beat[] = [
       },
       {
         from: "CHAGOYAN",
-        text: "{name}. If this decoded correctly, you are reading a message written twenty-one years from now. I taught in room 604. I still do.",
+        text: "{name}. If this decoded correctly, you are reading a message written far into the future. I taught in room 308, but have long retired to do research at ARPA.",
       },
       {
         from: "CHAGOYAN",
@@ -51,11 +51,11 @@ export const beats: Beat[] = [
       },
       {
         from: "CHAGOYAN",
-        text: "But four reconstructed ARPANET volumes surfaced on your school network: UCLA, SRI, UCSB, Utah. Shoggoth's origin trace is scattered across them. I need it.",
+        text: "But four reconstructed ARPANET volumes are located on your school network: UCLA, SRI, UCSB, Utah. I hid them there before retiring when testing some A.I. applications. Shoggoth's origin trace is scattered across them. I need it.",
       },
       {
         from: "CHAGOYAN",
-        text: "The relay dropped you somewhere on the UCLA volume and I have no telemetry. Before anything else — tell me exactly where you are standing.",
+        text: "The relay dropped you somewhere on the UCLA volume and I have no telemetry. Before anything else — tell me exactly where you are within the network.",
       },
     ],
     check: (s) => s.usedSinceBeat.has("pwd"),
