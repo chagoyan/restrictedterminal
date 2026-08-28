@@ -62,9 +62,10 @@ function Bubble({ msg, isLatest }: { msg: Message; isLatest: boolean }) {
 }
 
 export function CommsPanel({ messages, signal }: { messages: Message[]; signal: number }) {
-  const endRef = useRef<HTMLDivElement>(null);
+  const scrollRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
-    endRef.current?.scrollIntoView({ behavior: "smooth", block: "end" });
+    const el = scrollRef.current;
+    if (el) el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
   }, [messages]);
 
   return (
@@ -89,14 +90,13 @@ export function CommsPanel({ messages, signal }: { messages: Message[]; signal: 
         </p>
       </header>
 
-      <div className="min-h-0 flex-1 space-y-4 overflow-y-auto px-3 py-4">
+      <div ref={scrollRef} className="min-h-0 flex-1 space-y-4 overflow-y-auto px-3 py-4">
         {messages.length === 0 && (
           <p className="text-[11px] text-muted-foreground">Listening for carrier...</p>
         )}
         {messages.map((m, i) => (
           <Bubble key={m.id} msg={m} isLatest={i === messages.length - 1} />
         ))}
-        <div ref={endRef} />
       </div>
     </aside>
   );

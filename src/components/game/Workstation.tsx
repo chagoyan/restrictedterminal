@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useGame } from "@/lib/game/engine";
 import { TerminalPanel } from "./TerminalPanel";
 import { CommsPanel } from "./CommsPanel";
@@ -12,6 +13,10 @@ export function Workstation({
   onRestart: () => void;
 }) {
   const game = useGame(studentName);
+  const [commsOnline, setCommsOnline] = useState(false);
+  useEffect(() => {
+    if (game.messages.length > 0 && !commsOnline) setCommsOnline(true);
+  }, [game.messages.length, commsOnline]);
 
   if (game.finished) {
     return <CompletionScreen studentName={studentName} stats={game.stats} onRestart={onRestart} />;
@@ -30,7 +35,11 @@ export function Workstation({
 
       <div className="flex min-h-0 flex-1 flex-col gap-3 lg:flex-row">
         <TerminalPanel lines={game.lines} cwd={game.cwd} onSubmit={game.submit} />
-        <CommsPanel messages={game.messages} signal={signal} />
+        {commsOnline && (
+          <div className="glitch-in flex min-h-0 w-full lg:w-[380px]">
+            <CommsPanel messages={game.messages} signal={signal} />
+          </div>
+        )}
       </div>
 
       {game.blackout && (

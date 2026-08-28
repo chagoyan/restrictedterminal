@@ -8,9 +8,6 @@ export function LoginScreen({ onLogin }: { onLogin: (name: string) => void }) {
       <div className="pointer-events-none absolute inset-0 scanlines-overlay" aria-hidden="true" />
       <div className="panel-frame w-full max-w-md rounded-md p-8">
         <p className="text-xs tracking-[0.3em] text-muted-foreground">COALINGA UNIFIED</p>
-        <h1 className="mt-3 text-2xl font-bold tracking-tight text-primary glow-text">
-          TERMINAL MISSION: 2047
-        </h1>
         <p className="mt-2 text-xs leading-relaxed text-muted-foreground">
           Restricted network workstation. Identify yourself before the session is opened. All
           keystrokes are recorded for instructional review.
