@@ -210,7 +210,7 @@ export const beats: Beat[] = [
     onEnter: [
       {
         from: "CHAGOYAN",
-        text: "Data's safe. Now kill the thing that's editing that volume — the daemon directory on UCSB, all of it. It has no owner listed, {name}. Nothing legitimate runs without an owner.",
+        text: "Data's safe. Now delete the thing that's editing that volume — the daemon directory on UCSB, all of it. It has no owner listed, {name}. Nothing legitimate runs without an owner.",
       },
     ],
     check: (s) => !exists(s.root, "/net/ucsb/daemon"),
