@@ -5,6 +5,7 @@ export type Transmission = {
   text: string;
   glitch?: boolean;
   hint?: boolean;
+  alarm?: boolean;
 };
 
 export type BeatState = {
@@ -168,6 +169,7 @@ export const beats: Beat[] = [
         from: "CHAGOYAN",
         text: "It saw you. That observer process was watching directory access on SRI — which means anything you leave on those volumes is exposed.",
         glitch: true,
+        alarm: true,
       },
       {
         from: "CHAGOYAN",
