@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { pathString, type VDir } from "./fs";
+import { getNode, pathString, resolvePath, type VDir } from "./fs";
 import { buildWorld, HOME } from "./world";
-import { runCommand, type CmdContext } from "./commands";
+import { commands, runCommand, type CmdContext } from "./commands";
 import {
   beats,
   endgameMessages,
