@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { pathString, type VDir } from "./fs";
+import { getNode, pathString, resolvePath, type VDir } from "./fs";
 import { buildWorld, HOME } from "./world";
-import { runCommand, type CmdContext } from "./commands";
+import { commands, runCommand, type CmdContext } from "./commands";
 import {
   beats,
   endgameMessages,
@@ -179,6 +179,58 @@ export function useGame(studentName: string) {
     [cwd, pushLines, unlocked],
   );
 
+  /** Tab completion for command names and paths. Returns the completed input. */
+  const complete = useCallback(
+    (input: string): string => {
+      const trailingSpace = /\s$/.test(input);
+      const parts = input.split(/\s+/).filter(Boolean);
+
+      const commonPrefix = (items: string[]) => {
+        if (items.length === 0) return "";
+        let p = items[0]!;
+        for (const it of items) {
+          while (!it.startsWith(p)) p = p.slice(0, -1);
+        }
+        return p;
+      };
+
+      // Command name completion.
+      if (parts.length === 0 || (parts.length === 1 && !trailingSpace)) {
+        const frag = parts[0] ?? "";
+        const names = Object.keys(commands).filter((n) => n.startsWith(frag));
+        if (names.length === 0) return input;
+        if (names.length === 1) return names[0]! + " ";
+        pushLines([names.join("   ")], "output");
+        return commonPrefix(names);
+      }
+
+      // Path completion on the last token.
+      const token = trailingSpace ? "" : (parts[parts.length - 1] ?? "");
+      const slash = token.lastIndexOf("/");
+      const dirPart = slash >= 0 ? token.slice(0, slash + 1) : "";
+      const frag = slash >= 0 ? token.slice(slash + 1) : token;
+      const segs = resolvePath(cwd, dirPart || ".", HOME);
+      if (segs[0] === "net" && segs.length >= 2 && !unlocked.has(segs[1]!)) return input;
+      const node = getNode(rootRef.current, segs);
+      if (!node || node.type !== "dir") return input;
+
+      const matches = node.children
+        .filter((c) => c.name.startsWith(frag) && (frag.startsWith(".") || !c.name.startsWith(".")))
+        .map((c) => c.name + (c.type === "dir" ? "/" : ""))
+        .sort();
+      if (matches.length === 0) return input;
+
+      const head = trailingSpace ? input : input.slice(0, input.length - token.length);
+      if (matches.length === 1) {
+        const m = matches[0]!;
+        return head + dirPart + m + (m.endsWith("/") ? "" : " ");
+      }
+      pushLines([matches.join("   ")], "output");
+      return head + dirPart + commonPrefix(matches);
+    },
+    [cwd, pushLines, unlocked],
+  );
+
   const stats = useMemo(
     () => ({
       nodesAccessed: unlocked.size,
@@ -190,5 +242,17 @@ export function useGame(studentName: string) {
     [beatIndex, commandsUsed, hintsUsed, unlocked],
   );
 
-  return { lines, messages, cwd, submit, beat, beatIndex, unlocked, finished, blackout, stats };
+  return {
+    lines,
+    messages,
+    cwd,
+    submit,
+    complete,
+    beat,
+    beatIndex,
+    unlocked,
+    finished,
+    blackout,
+    stats,
+  };
 }

@@ -14,11 +14,13 @@ export function TerminalPanel({
   lines,
   cwd,
   onSubmit,
+  onComplete,
   disabled,
 }: {
   lines: Line[];
   cwd: string[];
   onSubmit: (input: string) => void;
+  onComplete?: (input: string) => string;
   disabled?: boolean;
 }) {
   const [value, setValue] = useState("");
@@ -85,6 +87,12 @@ export function TerminalPanel({
             onKeyDown={(e) => {
               if (e.key === "Enter") playEnter();
               else if (e.key.length === 1 || e.key === "Backspace" || e.key === "Tab") playKey();
+              if (e.key === "Tab") {
+                // Never let Tab move focus out of the terminal.
+                e.preventDefault();
+                if (onComplete) setValue(onComplete(value));
+                return;
+              }
               if (e.key === "ArrowUp") {
                 e.preventDefault();
                 const i = Math.min(histIdx + 1, history.length - 1);
