@@ -242,5 +242,17 @@ export function useGame(studentName: string) {
     [beatIndex, commandsUsed, hintsUsed, unlocked],
   );
 
-  return { lines, messages, cwd, submit, beat, beatIndex, unlocked, finished, blackout, stats };
+  return {
+    lines,
+    messages,
+    cwd,
+    submit,
+    complete,
+    beat,
+    beatIndex,
+    unlocked,
+    finished,
+    blackout,
+    stats,
+  };
 }
