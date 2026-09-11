@@ -14,11 +14,13 @@ export function TerminalPanel({
   lines,
   cwd,
   onSubmit,
+  onComplete,
   disabled,
 }: {
   lines: Line[];
   cwd: string[];
   onSubmit: (input: string) => void;
+  onComplete?: (input: string) => string;
   disabled?: boolean;
 }) {
   const [value, setValue] = useState("");
