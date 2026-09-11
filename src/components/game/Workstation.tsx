@@ -33,7 +33,12 @@ export function Workstation({
       />
 
       <div className="flex min-h-0 flex-1 flex-col gap-3 lg:flex-row">
-        <TerminalPanel lines={game.lines} cwd={game.cwd} onSubmit={game.submit} />
+        <TerminalPanel
+          lines={game.lines}
+          cwd={game.cwd}
+          onSubmit={game.submit}
+          onComplete={game.complete}
+        />
         {commsOnline && (
           <div className="glitch-in flex min-h-0 w-full lg:w-[380px]">
             <CommsPanel messages={game.messages} signal={signal} />
