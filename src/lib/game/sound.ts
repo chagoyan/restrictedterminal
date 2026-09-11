@@ -36,6 +36,13 @@ export function playIncoming() {
   setTimeout(() => tone(1175, 0.18, 0.05, "sine"), 110);
 }
 
+/** Short warning alarm when SHOGGOTH detects the connection. */
+export function playAlarm() {
+  [0, 150, 300].forEach((delay, index) => {
+    setTimeout(() => tone(index % 2 === 0 ? 520 : 390, 0.13, 0.08, "sawtooth"), delay);
+  });
+}
+
 /** Heavier thunk for Enter. */
 export function playEnter() {
   tone(680, 0.06, 0.06, "square");

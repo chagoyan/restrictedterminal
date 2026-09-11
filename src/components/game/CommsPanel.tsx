@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import type { Message } from "@/lib/game/engine";
-import { playIncoming } from "@/lib/game/sound";
+import { playAlarm, playIncoming } from "@/lib/game/sound";
 
 const GLITCH_CHARS = "!@#$%&*<>/\\|=+~";
 
@@ -83,7 +83,11 @@ export function CommsPanel({ messages, signal }: { messages: Message[]; signal: 
   const lastCount = useRef(0);
 
   useEffect(() => {
-    if (messages.length > lastCount.current) playIncoming();
+    if (messages.length > lastCount.current) {
+      const newest = messages[messages.length - 1];
+      if (newest?.alarm) playAlarm();
+      else playIncoming();
+    }
     lastCount.current = messages.length;
     const el = scrollRef.current;
     if (el) el.scrollTo({ top: el.scrollHeight, behavior: "smooth" });
