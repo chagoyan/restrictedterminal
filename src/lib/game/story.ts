@@ -122,12 +122,20 @@ export const beats: Beat[] = [
         from: "CHAGOYAN",
         text: "SRI just came up. That's the SDS-940 — the machine that received the first ARPANET message in 1969. Get onto it.",
       },
+      {
+        from: "CHAGOYAN",
+        text: "To move there, think about where you are. If your prompt shows /net/ucla, you are inside the ucla folder, which is inside net, which is at the root of the system.",
+      },
+      {
+        from: "CHAGOYAN",
+        text: "You can climb up one level with cd .. to reach /net, then enter the sri folder with cd sri. Or skip both steps by giving the full path: cd /net/sri.",
+      },
     ],
     check: (s) => at(s, "/net/sri"),
     hints: [
-      "The volume is mounted alongside the one you're on. You don't need me to carry you there.",
-      "You can move up out of the current volume, or address the destination directly by its full path.",
-      "cd /net/sri — or cd .. then cd sri.",
+      "Look at your prompt. If it ends in /net/ucla, you are inside the ucla directory.",
+      "cd .. moves you up one directory. From /net/ucla that takes you to /net.",
+      "Then cd sri enters the SRI volume. Or use the absolute path in one step: cd /net/sri.",
     ],
   },
   {
